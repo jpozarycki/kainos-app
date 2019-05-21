@@ -1,0 +1,13 @@
+footer {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+a {
+  color: #77b6ff;
+  font-weight: bold;
+}

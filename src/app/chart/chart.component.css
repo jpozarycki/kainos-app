@@ -1,0 +1,31 @@
+.container {
+  padding: 20px;
+}
+
+.my-style {
+  width: 50px;
+  background-color: dimgrey;
+  color: lightgray;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.nav-link {
+  color: dimgrey;
+  font-weight: bold;
+}
+
+a:hover {
+  background-color: #77b6ff;
+  color: black;
+}
+
+.nav-link {
+outline: 0;
+}
+
+.card-header {
+  padding: 0px;
+}

@@ -1,0 +1,73 @@
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Welcome to Rate Exchange Challenge</h1>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="text-center my-class-3">
+        <h2>Select currencies</h2>
+      </div>
+      <div class="text-center">
+        <form>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-5">
+                <select class="form-control"
+                        id="currencyFrom"
+                        name="currencyFrom"
+
+                        [(ngModel)]="currencyFrom"
+                        (ngModelChange)="getExchangeRate()">
+                  <option *ngFor="let item of currencies">{{item}}</option>
+                </select>
+              </div>
+              <div class="col-md-2 my-class-2">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+              <div class="col-md-5 box">
+                <select class="form-control"
+                        id="currencyTo"
+                        name="currencyTo"
+                        [(ngModel)]="currencyTo"
+                        (ngModelChange)="getExchangeRate()"
+                        data-role="select-dropdown">
+                  <option *ngFor="let item of currencies">{{item}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <div class="col-md-6 text-center my-auto">
+      <div class="card d-flex">
+        <div class="card-body align-items-center d-flex justify-content-center" >
+          <div *ngIf="exchangeRate !== '0'; else loading"><h4>{{exchangeRate | number : '1.2-5'}}</h4></div>
+          <ng-template #loading><div class="spinner-border"></div></ng-template>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-md-5 my-class">{{currencyFrom}} </div>
+            <div class="col-md-2 my-class">
+              <button
+              type="button"
+              class="btn"
+              (click)="switchCurrencies()"><i class="fas fa-arrows-alt-h"></i></button>
+            </div>
+            <div class="col-md-5 my-class">{{currencyTo}}</div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-chart
+    [currencyFrom]="currencyFrom"
+    [currencyTo]="currencyTo"></app-chart>
+

@@ -1,0 +1,64 @@
+/*.form-control {*/
+/*  width: 100px;*/
+/*}*/
+
+.col-md-4 {
+  text-align: center;
+}
+
+.btn {
+  background-color: dimgrey;
+  color: white;
+}
+
+.card {
+  height: 150px;
+}
+
+.my-class {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  color: dimgrey;
+  font-weight: bold;
+
+}
+
+.my-class-2 {
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  vertical-align: middle;
+
+}
+
+.my-class-3 {
+  padding-bottom: 8px;
+}
+
+.row {
+  text-align: center;
+}
+
+select {
+  background-color: #77b6ff;
+  color: white;
+  -webkit-appearance: button;
+}
+
+select:hover {
+  background: #4f9bf2;
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select:focus {
+  outline: none;
+}
+option {
+  background-color: white;
+}
