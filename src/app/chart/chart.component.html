@@ -1,22 +1,26 @@
 <div class="container">
-  <div class="card">
-    <div class="card-header">
-      <ul class="nav nav-tabs nav-justified">
-        <!--      <li class="navbar-text my-style"><i class="far fa-calendar"></i></li>-->
-        <li class="nav-item active bg-light"><a class="nav-link" routerLink="/1W">1W</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/1M">1M</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/2M">2M</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/6M">6M</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/1Y">1Y</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/2Y">2Y</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/5Y">5Y</a></li>
-        <li class="nav-item bg-light"><a class="nav-link" routerLink="/10Y">10Y</a></li>
-      </ul>
-    </div>
 
-    <div>
-      <router-outlet></router-outlet>
-    </div>
+  <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
+
+    <button class="btn active" (click)="updateChartData('1W')">1W</button>
+    <button class="btn active" (click)="updateChartData('1M')">1M</button>
+    <button class="btn active" (click)="updateChartData('2M')">2M</button>
+    <button class="btn active" (click)="updateChartData('6M')">6M</button>
+    <button class="btn active" (click)="updateChartData('1Y')">1Y</button>
+    <button class="btn active" (click)="updateChartData('2Y')">2Y</button>
+    <button class="btn active" (click)="updateChartData('5Y')">5Y</button>
+    <button class="btn active" (click)="updateChartData('10Y')">10Y</button>
+
   </div>
-
+  <canvas
+    baseChart
+    [chartType]="'line'"
+    [datasets]="chartData"
+    [labels]="labels"
+    [options]="chartOptions"
+    [legend]="false"
+    [colors]="colors"
+  >
+  </canvas>
 </div>
+

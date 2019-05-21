@@ -1,9 +1,9 @@
 <div class="jumbotron">
   <div class="container text-center">
-    <h1>Welcome to Rate Exchange Challenge</h1>
+    <h1>Welcome to Exchange Rate Challenge</h1>
   </div>
 </div>
-
+<!--window for currencies selection-->
 <div class="container">
 
   <div class="row">
@@ -16,10 +16,10 @@
           <div class="form-group">
             <div class="row">
               <div class="col-md-5">
+<!--                select from-->
                 <select class="form-control"
                         id="currencyFrom"
                         name="currencyFrom"
-
                         [(ngModel)]="currencyFrom"
                         (ngModelChange)="getExchangeRate()">
                   <option *ngFor="let item of currencies">{{item}}</option>
@@ -29,6 +29,7 @@
                 <i class="fas fa-arrow-right"></i>
               </div>
               <div class="col-md-5 box">
+<!--                select to-->
                 <select class="form-control"
                         id="currencyTo"
                         name="currencyTo"
@@ -42,7 +43,7 @@
           </div>
         </form>
       </div>
-
+<!--window with real time exchange rate-->
     </div>
     <div class="col-md-6 text-center my-auto">
       <div class="card d-flex">

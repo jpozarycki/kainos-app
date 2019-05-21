@@ -17,15 +17,28 @@
   font-weight: bold;
 }
 
-a:hover {
+.btn {
+  /*border: 1px;*/
+  background-color: lightgray;
+  color: dimgrey;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn:hover {
   background-color: #77b6ff;
-  color: black;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
 }
 
-.nav-link {
-outline: 0;
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #96c6ff;
+  color: white;
 }
 
-.card-header {
-  padding: 0px;
+.btn-group {
+  padding-bottom: 12px;
 }
