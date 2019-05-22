@@ -14,9 +14,6 @@
   background-color: #3f3f3f;
 }
 
-.card {
-  height: 150px;
-}
 
 .my-class {
   height: 40px;
@@ -33,7 +30,6 @@
   line-height: 34px;
   text-align: center;
   vertical-align: middle;
-
 }
 
 .my-class-3 {

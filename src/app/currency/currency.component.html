@@ -47,20 +47,20 @@
     </div>
     <div class="col-md-6 text-center my-auto">
       <div class="card d-flex">
-        <div class="card-body align-items-center d-flex justify-content-center" >
+        <div class="card-body d-flex justify-content-center" >
           <div *ngIf="exchangeRate !== '0'; else loading"><h4>{{exchangeRate | number : '1.2-5'}}</h4></div>
           <ng-template #loading><div class="spinner-border"></div></ng-template>
         </div>
         <div class="card-footer">
-          <div class="row">
-            <div class="col-md-5 my-class">{{currencyFrom}} </div>
-            <div class="col-md-2 my-class">
+          <div class="row justify-content-center">
+            <div class="col-md-5 col-sm-2 my-class">{{currencyFrom}} </div>
+            <div class="col-md-2 col-sm-2 my-class">
               <button
               type="button"
               class="btn"
               (click)="switchCurrencies()"><i class="fas fa-arrows-alt-h"></i></button>
             </div>
-            <div class="col-md-5 my-class">{{currencyTo}}</div>
+            <div class="col-md-5 col-sm-2 my-class">{{currencyTo}}</div>
           </div>
           </div>
       </div>
