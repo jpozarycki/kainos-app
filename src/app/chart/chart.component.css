@@ -39,6 +39,15 @@
   color: white;
 }
 
-.btn-group {
-  padding-bottom: 12px;
+
+
+.btn-my {
+  background-color: white;
+}
+
+.btn-my:focus,.btn-my:active,.btn-my:hover {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: white;
+  color: #96c6ff;
 }
