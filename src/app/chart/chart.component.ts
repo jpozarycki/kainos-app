@@ -3,6 +3,7 @@ import {ApiService} from '../service/api.service';
 import {BaseChartDirective} from 'ng2-charts';
 import {map} from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -102,10 +103,11 @@ export class ChartComponent implements OnInit, AfterViewInit {
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.exchangeRateValuesForChart.length; i++) {
           for (let j = 0; j < this.exchangeRateValuesForChart[i].length; j++) {
-            this.exchangeRateValuesForChart[i][this.exchangeRateValuesForChart[i].length - j] =
+            this.exchangeRateValuesForChart[i][this.exchangeRateValuesForChart[i].length - j - 1] =
               this.exchangeRateValues[this.exchangeRateValues.length - j - 1];
           }
         }
+        console.log(this.exchangeRateValuesForChart);
         this.chart.chart.update();
     });
 
@@ -126,6 +128,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.dates.length; i++) {
       // tslint:disable-next-line:prefer-for-of
+      console.log(this.dates[i]);
       for (let j = 0; j < this.dates[i].length; j++) {
         this.dates[i][this.dates[i].length - j - 1] = this.totalRange[this.totalRange.length - j - 1];
       }
@@ -198,6 +201,60 @@ export class ChartComponent implements OnInit, AfterViewInit {
         this.chartData[0].data = this.exchangeRateValuesForChart[0];
     }
     console.log(this.labels);
+    console.log(this.chartData[0].data);
+  }
+
+  updateTrendLines(chosenRange: number) {
+
+    while (this.chartData.length > 1) {
+      this.chartData.pop();
+    }
+
+    const trendLinesTemp = this.trendLines[chosenRange];
+    for (let i = 0; i < trendLinesTemp.length; i++) {
+      const tempRange = trendLinesTemp[i].length * (trendLinesTemp.length - i - 1);
+      for (let j = 0; j < tempRange; j++) {
+        trendLinesTemp[i].unshift(null);
+      }
+    }
+
+    console.log('******** ' + trendLinesTemp);
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < trendLinesTemp.length; i++) {
+      const trendLine = {
+        label: 'Trendline',
+        data: trendLinesTemp[i],
+        borderColor: this.setColor(trendLinesTemp[i]),
+        borderWidth: 1,
+        borderDash: [10, 5],
+        fill: false,
+        hidden: false
+      };
+      console.log(trendLine.data);
+      this.chartData.push(trendLine);
+    }
+    this.chart.chart.update();
+  }
+
+  private setColor(trendLineValues: any[]): string {
+    const trendLineValuesInNumbers = new Array();
+
+    // tslint:disable-next-line:prefer-for-of
+    for ( let i = 0; i < trendLineValues.length; i++) {
+      if ( trendLineValues[i] !== null) {
+        trendLineValuesInNumbers.push(trendLineValues[i]);
+      }
+
+    }
+
+    const min = Math.min.apply(null, trendLineValuesInNumbers);
+    const max = Math.max.apply(null, trendLineValuesInNumbers);
+
+    if (trendLineValues.indexOf(max.toString()) < trendLineValues.indexOf(min.toString())) {
+      return '#ff5454';
+    } else {
+      return '#35ff82';
+    }
   }
 
   generateTrendLines() {
@@ -219,62 +276,43 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     for (let i = 0; i < this.trendLines.length; i++) {
       for (let j = 0; j < this.trendLines[i].length; j++) {
-        console.log(this.dates[i].length);
         const numberOfPoints = this.dates[i].length / this.trendLines[i].length;
-        console.log(numberOfPoints);
         this.trendLines[i][j] = new Array(numberOfPoints);
       }
     }
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.trendLines.length; i++) {
+      // tslint:disable-next-line:prefer-for-of
       for (let j = 0; j < this.trendLines[i].length; j++) {
-        for (let k = 0; k < this.trendLines[i][j].length; k++) {
-          this.trendLines[i][j][k] = null;
-        }
+        this.trendLines[i][j].fill(null);
       }
     }
 
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.trendLines.length; i++) {
       let n = 0;
+      // tslint:disable-next-line:prefer-for-of
       for (let j = 0; j < this.trendLines[i].length; j++) {
         for (let k = 0; k < this.trendLines[i][j].length; k++) {
-          if (k === 0 || k === (this.trendLines[i][j].length - 1)) {
-            if ( this.exchangeRateValues[n] !== null) {
-              this.trendLines[i][j][k] = this.exchangeRateValues[n];
-            } else {
-              let c = n;
-              while (this.exchangeRateValues[c] === null) {
-                c--;
-              }
-              this.trendLines[i][j][k] = this.exchangeRateValues[c];
+          if ( k === 0 || k === this.trendLines[i][j].length - 1) {
+            let c = this.exchangeRateValuesForChart[i].length - n - 1;
+            while (this.exchangeRateValuesForChart[i][c] === null) {
+              c++;
             }
-
+            this.trendLines[i][j][this.trendLines[i][j].length - k - 1]
+              = this.exchangeRateValuesForChart[i][c];
           }
           n++;
         }
       }
     }
-
-    console.log(this.exchangeRateValues);
-    console.log(this.trendLines);
-
-
-    // for (let i = 0; i < trendLine.data.length; i++) {
-    //   if (i === 0 || i === trendLine.data.length - 1) {
-    //     trendLine.data[i] = (this.exchangeRateValues[i]);
-    //   } else {
-    //     trendLine.data[i] = null;
-    //   }
-    //
-    // }
-
-
-    this.chart.datasets.push(trendLine);
-    // this.chartData[1] = trendLine;
-    if (trendLine.data[0] < trendLine.data[trendLine.data.length - 1]) {
-      trendLine.borderColor = '#f4427a';
-    }
+    console.log('==========');
+    console.log('exchange rate value: '  + this.exchangeRateValues);
+    console.log('==========');
+    console.log('trendline values: ' + this.trendLines);
+    console.log('==========');
+    console.log('exchange rate values for chart: ' + this.exchangeRateValuesForChart);
   }
 
 
@@ -285,4 +323,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
 
+  showTrendLineData() {
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.trendLines.length; i++) {
+      console.log(this.trendLines[i]);
+    }
+  }
 }
