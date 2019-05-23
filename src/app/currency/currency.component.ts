@@ -26,38 +26,32 @@ export class CurrencyComponent implements OnInit, AfterViewInit {
 
   getCurrencies() {
     this.apiService.getCurrencies().subscribe(data => {
-    console.log(Object.keys(data));
-    this.currencies = Object.keys(data);
-    console.log(this.currencies);
-    this.currencyFrom = 'PLN';
-    this.currencyTo = 'CHF';
-    this.getExchangeRate();
+      this.currencies = Object.keys(data);
+      this.currencyFrom = 'PLN';
+      this.currencyTo = 'CHF';
+      this.getExchangeRate();
     });
   }
 
   getExchangeRate() {
-    if (this.currencyFrom && this.currencyTo) {
-      this.apiService.getRealTimeRate(this.currencyFrom, this.currencyTo)
-        .pipe(map(result => {
-          console.log(result),
-            this.exchangeRate = '0',
-            this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-        })).subscribe();
-    }
+    this.apiService.getRealTimeRate(this.currencyFrom, this.currencyTo)
+      .pipe(map(result => {
+        console.log(result),
+          this.exchangeRate = 0,
+          this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+      })).subscribe();
 
   }
 
   switchCurrencies() {
-    let temp: any;
+    let temp;
 
     temp = this.currencyFrom;
     this.currencyFrom = this.currencyTo;
     this.currencyTo = temp;
 
-    this.exchangeRate = 1 / this.exchangeRate;
+    this.getExchangeRate();
   }
-
-
 
 
 }

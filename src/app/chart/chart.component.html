@@ -1,39 +1,36 @@
 <div class="container">
-  <button (click)="populateDates()">Populate dates</button>
-<!--  <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">-->
+  <div class="row justify-content-center add-padd"><h2>Choose date range for historical values</h2></div>
+  <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
+<!--group of buttons for time range options-->
+    <button class="btn active" (click)="updateChartData('1W')" *ngIf="howManyButtons >= 1">1W</button>
+    <button class="btn active" (click)="updateChartData('1M')" *ngIf="howManyButtons >= 2">1M</button>
+    <button class="btn active" (click)="updateChartData('2M')" *ngIf="howManyButtons >= 3">2M</button>
+    <button class="btn active" (click)="updateChartData('6M')" *ngIf="howManyButtons >= 4">6M</button>
+    <button class="btn active" (click)="updateChartData('1Y')" *ngIf="howManyButtons >= 5">1Y</button>
+    <button class="btn active" (click)="updateChartData('2Y')" *ngIf="howManyButtons >= 6">2Y</button>
+    <button class="btn active" (click)="updateChartData('5Y')" *ngIf="howManyButtons >= 7">5Y</button>
+    <button class="btn active" (click)="updateChartData('10Y')" *ngIf="howManyButtons == 8">10Y</button>
 
-<!--    <button class="btn active" (click)="updateChartData('1W')">1W</button>-->
-<!--    <button class="btn active" (click)="updateChartData('1M')">1M</button>-->
-<!--    <button class="btn active" (click)="updateChartData('2M')">2M</button>-->
-<!--    <button class="btn active" (click)="updateChartData('6M')">6M</button>-->
-<!--    <button class="btn active" (click)="updateChartData('1Y')">1Y</button>-->
-<!--    <button class="btn active" (click)="updateChartData('2Y')">2Y</button>-->
-<!--    <button class="btn active" (click)="updateChartData('5Y')">5Y</button>-->
-<!--    <button class="btn active" (click)="updateChartData('10Y')">10Y</button>-->
-
-<!--  </div>-->
-<!--  <div class="container">-->
-<!--    <div class="d-flex justify-content-center">-->
-
-<!--      <button class="btn btn-my" (click)="hideTrendLine()">{{trendlineText}}</button>-->
-<!--    </div>-->
-<!--      <canvas-->
-<!--        baseChart-->
-<!--        [chartType]="'line'"-->
-<!--        [datasets]="chartData"-->
-<!--        [labels]="labels"-->
-<!--        [options]="chartOptions"-->
-<!--        [legend]="false"-->
-<!--        [colors]="colors"-->
-<!--      >-->
-<!--      </canvas>-->
+  </div>
+  <div class="container" *ngIf="wasGenerated">
+    <div class="d-flex justify-content-center">
+<!--      button for toggling trendlines-->
+      <button class="btn btn-my" (click)="hideTrendLine()">{{trendlineText}}</button>
+    </div>
+<!--    chart itself-->
+      <canvas
+        baseChart
+        [chartType]="'line'"
+        [datasets]="chartData"
+        [labels]="labels"
+        [options]="chartOptions"
+        [legend]="false"
+        [colors]="colors"
+      >
+      </canvas>
 
 
-<!--  </div>-->
+  </div>
 
 </div>
-
-<!--<button (click)="generateTrendLines()">generate trendlines</button>-->
-<!--<button (click)="showTrendLineData()">show trendline data</button>-->
-<!--<button (click)="updateTrendLines(3)">update trendlines</button>-->
 

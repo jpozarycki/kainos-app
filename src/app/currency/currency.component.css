@@ -64,3 +64,8 @@ select:focus {
 option {
   background-color: white;
 }
+
+.add-padd {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
