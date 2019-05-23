@@ -18,8 +18,8 @@ export class CurrencyComponent implements OnInit {
     'SLL', 'SOS', 'SRD', 'SSP', 'STD', 'STN', 'SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH',
     'UGX', 'USD', 'UYU', 'UZS', 'VEF', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XAG', 'XAU', 'XCD', 'XDR', 'XOF', 'XPD', 'XPF', 'XPT', 'YER',
     'ZAR', 'ZMW', 'ZWL'];
-  currencyFrom = 'EUR';
-  currencyTo = 'USD';
+  currencyFrom = 'PLN';
+  currencyTo = 'CHF';
   exchangeRate;
 
   constructor(private apiService: ApiService) {

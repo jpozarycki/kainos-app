@@ -1,15 +1,14 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ApiService} from '../service/api.service';
 import {BaseChartDirective} from 'ng2-charts';
 import {map} from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit, AfterViewInit {
+export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() currencyTo;
   @Input() currencyFrom;
@@ -89,7 +88,16 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.getExchangeRatesFromApi();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+    this.wasGenerated = false;
+    this.getExchangeRatesFromApi();
+  }
+
   getExchangeRatesFromApi() {
+    if (this.exchangeRateValues.length > 0) {
+      this.exchangeRateValues.length = 0;
+    }
     this.apiService.getHistoricalRate(this.currencyFrom, this.currencyTo)
       .pipe(map(
         data => {
@@ -133,16 +141,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.dates.length; i++) {
       // tslint:disable-next-line:prefer-for-of
-      // console.log(this.dates[i]);
       for (let j = 0; j < this.dates[i].length; j++) {
         this.dates[i][this.dates[i].length - j - 1] = this.totalRange[this.totalRange.length - j - 1];
       }
     }
-
-    // console.log(this.dates);
-    // console.log(this.totalRange);
-
-
   }
 
   private refactorDate(date) {
@@ -165,8 +167,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
   updateChartData(chosenRange: string) {
-    // console.log('It works');
-    // console.log(chosenRange);
+
     switch (chosenRange) {
       case '1W':
         this.labels = this.dates[0];
@@ -222,8 +223,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
       }
     }
     this.wasGenerated = true;
-    // console.log(this.labels);
-    // console.log(this.chartData[0].data);
+
   }
 
   updateTrendLines(chosenRange: number) {
@@ -315,6 +315,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     const trendLinesTemp = new Array();
+    // tslint:disable-next-line:prefer-for-of
     for (let h = 0; h < this.trendLines.length; h++) {
       const trendLinesTempInLoop = this.trendLines[h];
       for (let i = 0; i < trendLinesTempInLoop.length; i++) {
@@ -355,10 +356,4 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
 
-  showTrendLineData() {
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.trendLines.length; i++) {
-      console.log(this.trendLines[i]);
-    }
-  }
 }
