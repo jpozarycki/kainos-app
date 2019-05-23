@@ -81,11 +81,10 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
 
   ngOnInit() {
-    this.populateDates();
   }
 
   ngAfterViewInit() {
-    this.getExchangeRatesFromApi();
+    // this.getExchangeRatesFromApi();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,50 +100,48 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     this.apiService.getHistoricalRate(this.currencyFrom, this.currencyTo)
       .pipe(map(
         data => {
-          this.timeSeries = data['Time Series FX (Daily)'];
-          // console.log(this.timeSeries);
-          this.totalRange.forEach(date => {
-            const item = ((this.timeSeries[date] || {})['4. close'] || null);
-            this.exchangeRateValues.push(item);
-          });
+          this.timeSeries.length = 0;
+          console.log(Object.keys(this.timeSeries).length);
+          // tslint:disable-next-line:forin
+          for (const item in data['Time Series FX (Daily)']) {
+            this.timeSeries.unshift([item, parseFloat(data['Time Series FX (Daily)'][item]['4. close'])]);
+          }
+          console.log(this.timeSeries);
         }))
       .subscribe(() => {
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < this.exchangeRateValuesForChart.length; i++) {
-          for (let j = 0; j < this.exchangeRateValuesForChart[i].length; j++) {
-            this.exchangeRateValuesForChart[i][this.exchangeRateValuesForChart[i].length - j - 1] =
-              this.exchangeRateValues[this.exchangeRateValues.length - j - 1];
-          }
+        this.labels.length = 0;
+        this.chartData[0].data.length = 0;
+        for (let i = 0; i < this.timeSeries.length; i++) {
+          this.labels.push(this.timeSeries[i][0]);
+          this.chartData[0].data.push(this.timeSeries[i][1]);
         }
-        setTimeout(() => {
-          this.generateTrendLines();
-          console.log('Initial generation of trend lines');
+        console.log(this.labels);
+        console.log(this.chartData[0].data);
         });
-        // console.log(this.exchangeRateValuesForChart);
-        this.chart.chart.update();
-      });
 
   }
 
   populateDates() {
-    const endDate = new Date();
-
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 3650);
-
-    while (endDate >= startDate) {
-      this.totalRange.push(this.refactorDate(endDate));
-      endDate.setDate(endDate.getDate() - 1);
-    }
-
-    this.totalRange = this.totalRange.reverse();
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.dates.length; i++) {
-      // tslint:disable-next-line:prefer-for-of
-      for (let j = 0; j < this.dates[i].length; j++) {
-        this.dates[i][this.dates[i].length - j - 1] = this.totalRange[this.totalRange.length - j - 1];
+    const dates = new Array();
+    const endDate = new Date(this.timeSeries[this.timeSeries.length - 1][0]);
+    console.log('End date: ' + endDate);
+    const tempDate = new Date(this.timeSeries[0][0]);
+    console.log('Start date: ' + tempDate);
+    while (tempDate <= endDate) {
+      const dateToPut = this.refactorDate(tempDate);
+      let exchangeValue;
+      for (let i = 0; i < this.timeSeries.length; i++) {
+        if (this.timeSeries[i][0] === dateToPut) {
+          exchangeValue = this.timeSeries[i][1];
+        }
       }
+      if (isNaN(exchangeValue)) {
+        exchangeValue = null;
+      }
+      dates.push( [dateToPut, exchangeValue]);
+      tempDate.setDate(tempDate.getDate() + 1);
     }
+    console.log(dates);
   }
 
   private refactorDate(date) {
@@ -216,7 +213,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     if (this.trendlineText === 'Hide trendlines') {
       for (let i = 0; i < this.chartData.length; i++) {
-        if ( i > 0 ) {
+        if (i > 0) {
           // @ts-ignore
           this.chartData[i].hidden = false;
         }
@@ -328,19 +325,14 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     this.trendLines = trendLinesTemp;
     console.log(this.trendLines);
-    // console.log('==========');
-    // console.log('exchange rate value: '  + this.exchangeRateValues);
-    // console.log('==========');
-    // console.log('trendline values: ' + this.trendLines);
-    // console.log('==========');
-    // console.log('exchange rate values for chart: ' + this.exchangeRateValuesForChart);
+
   }
 
 
   hideTrendLine() {
     // @ts-ignore
     for (let i = 0; i < this.chartData.length; i++) {
-      if ( i > 0 ) {
+      if (i > 0) {
         // @ts-ignore
         this.chartData[i].hidden = !this.chartData[i].hidden;
       }

@@ -1,35 +1,35 @@
 <div class="container">
+  <button (click)="populateDates()">Populate dates</button>
+<!--  <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">-->
 
-  <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
+<!--    <button class="btn active" (click)="updateChartData('1W')">1W</button>-->
+<!--    <button class="btn active" (click)="updateChartData('1M')">1M</button>-->
+<!--    <button class="btn active" (click)="updateChartData('2M')">2M</button>-->
+<!--    <button class="btn active" (click)="updateChartData('6M')">6M</button>-->
+<!--    <button class="btn active" (click)="updateChartData('1Y')">1Y</button>-->
+<!--    <button class="btn active" (click)="updateChartData('2Y')">2Y</button>-->
+<!--    <button class="btn active" (click)="updateChartData('5Y')">5Y</button>-->
+<!--    <button class="btn active" (click)="updateChartData('10Y')">10Y</button>-->
 
-    <button class="btn active" (click)="updateChartData('1W')">1W</button>
-    <button class="btn active" (click)="updateChartData('1M')">1M</button>
-    <button class="btn active" (click)="updateChartData('2M')">2M</button>
-    <button class="btn active" (click)="updateChartData('6M')">6M</button>
-    <button class="btn active" (click)="updateChartData('1Y')">1Y</button>
-    <button class="btn active" (click)="updateChartData('2Y')">2Y</button>
-    <button class="btn active" (click)="updateChartData('5Y')">5Y</button>
-    <button class="btn active" (click)="updateChartData('10Y')">10Y</button>
+<!--  </div>-->
+<!--  <div class="container">-->
+<!--    <div class="d-flex justify-content-center">-->
 
-  </div>
-  <div class="container" *ngIf="wasGenerated">
-    <div class="d-flex justify-content-center">
-
-      <button class="btn btn-my" (click)="hideTrendLine()">{{trendlineText}}</button>
-    </div>
-      <canvas
-        baseChart
-        [chartType]="'line'"
-        [datasets]="chartData"
-        [labels]="labels"
-        [options]="chartOptions"
-        [legend]="false"
-        [colors]="colors"
-      >
-      </canvas>
+<!--      <button class="btn btn-my" (click)="hideTrendLine()">{{trendlineText}}</button>-->
+<!--    </div>-->
+<!--      <canvas-->
+<!--        baseChart-->
+<!--        [chartType]="'line'"-->
+<!--        [datasets]="chartData"-->
+<!--        [labels]="labels"-->
+<!--        [options]="chartOptions"-->
+<!--        [legend]="false"-->
+<!--        [colors]="colors"-->
+<!--      >-->
+<!--      </canvas>-->
 
 
-  </div>
+<!--  </div>-->
 
 </div>
 

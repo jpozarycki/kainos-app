@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +16,10 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  // getCurrencies() {
-  //   return this.http.get(this.API_CURRENCIES_URL);
-  // }
+  getCurrencies() {
+    return this.http.get(this.API_CURRENCIES_URL);
+  }
+
   getRealTimeRate(currencyFrom: string, currencyTo: string) {
      return this.http.get(this.API_REAL_TIME_URL + currencyFrom + '&to_currency=' + currencyTo + '&apikey=B19MFIHYQ01VRIIU');
   }
