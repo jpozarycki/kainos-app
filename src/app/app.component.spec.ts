@@ -1,17 +1,32 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AppComponent} from './app.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {Router} from '@angular/router';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HeaderComponent} from './header/header.component';
 
 describe('AppComponent', () => {
+
+  let fixtureHeader: ComponentFixture<HeaderComponent>;
+  let router: Router;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([])
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent,
       ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
+
+    fixtureHeader = TestBed.createComponent(HeaderComponent);
+    router = TestBed.get(Router);
+
   }));
 
   it('should create the app', () => {
@@ -20,16 +35,19 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'kainos-app-new'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('kainos-app-new');
+  it('should navigate to contact', () => {
+    const component = fixtureHeader.componentInstance;
+    const navigateSpy = spyOn(router, 'navigate');
+
+    component.goContact();
+    expect(navigateSpy).toHaveBeenCalledWith(['contact']);
   });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to kainos-app-new!');
+  it('should navigate to home', () => {
+    const component = fixtureHeader.componentInstance;
+    const navigateSpy = spyOn(router, 'navigate');
+
+    component.goHome();
+    expect(navigateSpy).toHaveBeenCalledWith(['']);
   });
 });
