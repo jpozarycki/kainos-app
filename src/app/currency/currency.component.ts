@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../service/api.service';
 import {map} from 'rxjs/operators';
 
@@ -7,7 +7,7 @@ import {map} from 'rxjs/operators';
   templateUrl: './currency.component.html',
   styleUrls: ['./currency.component.css']
 })
-export class CurrencyComponent implements OnInit, AfterViewInit {
+export class CurrencyComponent implements OnInit {
   currencies = [];
   currencyFrom;
   currencyTo;
@@ -18,10 +18,6 @@ export class CurrencyComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCurrencies();
-  }
-
-  ngAfterViewInit() {
-
   }
 
   getCurrencies() {
