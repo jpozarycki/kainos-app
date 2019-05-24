@@ -13,12 +13,12 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() currencyTo;
   @Input() currencyFrom;
 
-  private wasGenerated = false;
+  wasGenerated = false;
   private trendlineText = 'Hide trendlines';
   private timeSeries = [];
   private dates = new Array(8);
   private trendLines = new Array(8);
-  private howManyButtons = 1;
+  howManyButtons = 1;
 
   @ViewChild(BaseChartDirective)
   public chart: BaseChartDirective;
