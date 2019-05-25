@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {ApiService} from '../service/api.service';
 import {BaseChartDirective} from 'ng2-charts';
 import {map} from 'rxjs/operators';
@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
+export class ChartComponent implements AfterViewInit, OnChanges {
 
   @Input() currencyTo;
   @Input() currencyFrom;
@@ -16,8 +16,8 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   wasGenerated = false;
   private trendlineText = 'Hide trendlines';
   private timeSeries = [];
-  private dates = new Array(8);
-  private trendLines = new Array(8);
+  dates = new Array(8);
+  trendLines = new Array(8);
   howManyButtons = 1;
 
   @ViewChild(BaseChartDirective)
@@ -62,7 +62,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
   chartData = [
     {
       label: 'Exchange rate',
-      data: [],
+      data: []
     }
 
   ];
@@ -75,9 +75,6 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
   ];
 
-
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
   }
@@ -150,7 +147,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   }
 
-  private refactorDate(date) {
+  refactorDate(date) {
 
     let dd = date.getDate();
     let mm = date.getMonth() + 1;
@@ -292,7 +289,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
       }
 
     console.log(trendlines);
-    // inserts null arrays in front of trendline datasets - trendlines dont overlap
+    // inserts nulls in front of trendline datasets - trendlines dont overlap
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < trendlines.length; i++) {
       for (let j = 0; j < trendlines[i].length; j++) {
@@ -334,7 +331,7 @@ export class ChartComponent implements OnInit, AfterViewInit, OnChanges {
 
 
 
-  private setColor(trendLineValues: any[]): string {
+  setColor(trendLineValues: any[]): string {
     const trendLineValuesInNumbers = new Array();
 
     // tslint:disable-next-line:prefer-for-of
