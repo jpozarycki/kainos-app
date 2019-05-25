@@ -1,7 +1,7 @@
 # Kainos Exchange Rate Challenge
 
 App shows real-time exchange rate for a chosen pair of currencies and historical data in form of a graph. You can choose which range should be shown (min 7 days, max 10 years), of course if data is available on the server. For every range trendlines are generated - for increasing values, they are green and for decreasing values they are red. You can toggle the visibility of trendlines.
-
+![api ss](https://github.com/jpozarycki/kainos-app/blob/master/src/app-screenshot.png)
 ## APIs
 
 List of currencies is provided by [openexchangerates.org](https://openexchangerates.org/api/currencies.json).
