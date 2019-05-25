@@ -1,27 +1,21 @@
-# KainosAppNew
+# Kainos Exchange Rate Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+App shows real-time exchange rate for a chosen pair of currencies and historical data in form of a graph. You can choose which range should be shown (min 7 days, max 10 years), of course if data is available on the server. For every range trendlines are generated - for increasing values, they are green and for decreasing values they are red. You can toggle the visibility of trendlines.
+
+## APIs
+
+List of currencies is provided by [openexchangerates.org](https://openexchangerates.org/api/currencies.json).
+Real-time values are provided by [alhavantage.co](https://www.alphavantage.co/documentation/#currency-exchange).
+Historical data are provided by [alphavantage.co](https://www.alphavantage.co/documentation/#fx-daily).
+
+## Tools
+
+The app was written using [Angular 7](https://angular.io/) (TypeScript 3.2.4). For styling [Bootstrap 4](https://v4-alpha.getbootstrap.com/) and CSS 3 was chosen. Charts are generated with [Chart.js](https://www.chartjs.org/) and [ng2-charts](https://valor-software.com/ng2-charts/). Unit tests were written using [Jasmine](https://jasmine.github.io/)/[Karma](https://karma-runner.github.io/4.0/index.html) environment.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Warnings
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Free alphavantage key lets the user to make only 5 calls per minute and 500 per day. Jasmine has issues with testing Chart.js and therefore tests for methods using chart values are available, but commented out.
