@@ -14,7 +14,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
   @Input() currencyFrom;
 
   wasGenerated = false;
-  private trendlineText = 'Hide trendlines';
+  private trendLineButtonText = 'Hide trendlines';
   private timeSeries = [];
   dates = new Array(8);
   trendLines = new Array(8);
@@ -232,7 +232,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
           this.chartData[0].data.push(data[1]);
         });
     }
-    if (this.trendlineText === 'Hide trendlines') {
+    if (this.trendLineButtonText === 'Hide trendlines') {
       for (let i = 0; i < this.chartData.length; i++) {
         if (i > 0) {
           // @ts-ignore
@@ -363,9 +363,9 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     }
     // @ts-ignore
     if (this.chartData[this.chartData.length - 1].hidden === true) {
-      this.trendlineText = 'Show trendlines';
+      this.trendLineButtonText = 'Show trendlines';
     } else {
-      this.trendlineText = 'Hide trendlines';
+      this.trendLineButtonText = 'Hide trendlines';
     }
 
     this.chart.chart.update();

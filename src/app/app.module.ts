@@ -14,6 +14,9 @@ import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiService} from './service/api.service';
 import {ChartsModule} from 'ng2-charts';
+import {CommonModule} from '@angular/common';
+import {TransferHttpCacheModule} from '@nguniversal/common';
+import {NgtUniversalModule} from '@ng-toolkit/universal';
 
 @NgModule({
   declarations: [
@@ -26,12 +29,15 @@ import {ChartsModule} from 'ng2-charts';
     ErrorComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ChartsModule
+    ChartsModule,
+    CommonModule,
+    TransferHttpCacheModule,
+    NgtUniversalModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
