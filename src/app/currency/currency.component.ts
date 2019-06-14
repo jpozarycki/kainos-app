@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from '../service/api.service';
-import {map} from 'rxjs/operators';
+import {ExchangeRateService} from '../service/exchange-rate.service';
 
 @Component({
   selector: 'app-currency',
@@ -13,7 +12,7 @@ export class CurrencyComponent implements OnInit {
   currencyTo;
   exchangeRate;
 
-  constructor(private apiService: ApiService) {
+  constructor(private exchangeRateService: ExchangeRateService) {
   }
 
   ngOnInit() {
@@ -21,7 +20,7 @@ export class CurrencyComponent implements OnInit {
   }
 
   getCurrencies() {
-    this.apiService.getCurrencies().subscribe(data => {
+    this.exchangeRateService.getCurrencies().subscribe(data => {
       this.currencies = Object.keys(data);
       this.currencyFrom = 'PLN';
       this.currencyTo = 'CHF';
@@ -30,12 +29,12 @@ export class CurrencyComponent implements OnInit {
   }
 
   getExchangeRate() {
-    this.apiService.getRealTimeRate(this.currencyFrom, this.currencyTo)
-      .pipe(map(result => {
-        console.log(result),
-          this.exchangeRate = 0,
-          this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-      })).subscribe();
+    this.exchangeRateService.getRealTimeRate(this.currencyFrom, this.currencyTo)
+      .subscribe(result => {
+      console.log(result),
+        this.exchangeRate = 0,
+        this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+    });
 
   }
 

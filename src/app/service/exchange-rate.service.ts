@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ExchangeRateService {
 
   private API_CURRENCIES_URL = 'https://openexchangerates.org/api/currencies.json';
 

@@ -4,28 +4,28 @@ import {CurrencyComponent} from './currency.component';
 import {FormsModule} from '@angular/forms';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ApiService} from '../service/api.service';
+import {ExchangeRateService} from '../service/exchange-rate.service';
 
 describe('CurrencyComponent', () => {
   let component: CurrencyComponent;
   let fixture: ComponentFixture<CurrencyComponent>;
   let currencyFromMock;
   let currencyToMock;
-  let apiService: ApiService;
+  let apiService: ExchangeRateService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CurrencyComponent ],
       imports: [FormsModule, HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [ ApiService ]
+      providers: [ ExchangeRateService ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(CurrencyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    apiService = TestBed.get(ApiService);
+    apiService = TestBed.get(ExchangeRateService);
     currencyFromMock = 'PLN';
     currencyToMock = 'CHF';
   }));

@@ -5,7 +5,7 @@ import {ChartsModule} from 'ng2-charts';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {FormsModule} from '@angular/forms';
 import {SimpleChange} from '@angular/core';
-import {ApiService} from '../service/api.service';
+import {ExchangeRateService} from '../service/exchange-rate.service';
 
 describe('ChartTestComponent', () => {
   let component: ChartComponent;
@@ -17,7 +17,7 @@ describe('ChartTestComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ChartComponent ],
       imports: [ ChartsModule, HttpClientTestingModule, FormsModule ],
-      providers: [ApiService]
+      providers: [ExchangeRateService]
     })
     .compileComponents();
 
@@ -26,7 +26,7 @@ describe('ChartTestComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChartComponent);
-    apiService = TestBed.get(ApiService);
+    apiService = TestBed.get(ExchangeRateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
     currencyFrom = 'AAA';

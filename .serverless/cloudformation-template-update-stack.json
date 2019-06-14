@@ -103,7 +103,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/kainos-app-new/production/1558790564992-2019-05-25T13:22:44.992Z/kainos-app-new.zip"
+          "S3Key": "serverless/kainos-app-new/production/1558804703814-2019-05-25T17:18:23.814Z/kainos-app-new.zip"
         },
         "FunctionName": "kainos-app-new-production-api",
         "Handler": "lambda.universal",
@@ -114,7 +114,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs6.10",
+        "Runtime": "nodejs8.10",
         "Timeout": 10
       },
       "DependsOn": [
@@ -122,14 +122,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiLambdaVersiondWH3c4mx057ega8EE9gL5oiApvtTYMzgyVlqZB20s": {
+    "ApiLambdaVersion7CSLGX71SV7s9QjrSD2S9EI8Po9YamwMHzmK6DQ0nU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "7dhxc18iWkHgg3MIk/w7x4+Z+xS6oSlmaDqXl/SvdDE="
+        "CodeSha256": "2TVIxJrKhWUgcMJtfuqBRrKr05pKwK1iPxUmmyMCtOI="
       }
     },
     "ApiGatewayRestApi": {
@@ -247,7 +247,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1558790534561": {
+    "ApiGatewayDeployment1558804666640": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -317,7 +317,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersiondWH3c4mx057ega8EE9gL5oiApvtTYMzgyVlqZB20s"
+        "Ref": "ApiLambdaVersion7CSLGX71SV7s9QjrSD2S9EI8Po9YamwMHzmK6DQ0nU"
       }
     },
     "ServiceEndpoint": {

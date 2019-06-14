@@ -1,13 +1,13 @@
 import {getTestBed, TestBed} from '@angular/core/testing';
 
-import {ApiService} from './api.service';
+import {ExchangeRateService} from './exchange-rate.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {take} from 'rxjs/operators';
 
-describe('ApiService Tests', () => {
+describe('ExchangeRateService Tests', () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;
-  let service: ApiService;
+  let service: ExchangeRateService;
   let currDefault;
   let realtimeDefault;
   let historicalDefault;
@@ -16,10 +16,10 @@ describe('ApiService Tests', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ApiService]
+      providers: [ExchangeRateService]
     });
     injector = getTestBed();
-    service = injector.get(ApiService);
+    service = injector.get(ExchangeRateService);
     httpMock = injector.get(HttpTestingController);
 
     currDefault = {AED: 'United Arab Emirates Dirham'};

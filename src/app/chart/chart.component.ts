@@ -1,14 +1,13 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {ApiService} from '../service/api.service';
+import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {ExchangeRateService} from '../service/exchange-rate.service';
 import {BaseChartDirective} from 'ng2-charts';
-import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements AfterViewInit, OnChanges {
+export class ChartComponent implements OnChanges {
 
   @Input() currencyTo;
   @Input() currencyFrom;
@@ -23,7 +22,7 @@ export class ChartComponent implements AfterViewInit, OnChanges {
   @ViewChild(BaseChartDirective)
   public chart: BaseChartDirective;
 
-  constructor(private apiService: ApiService) {
+  constructor(private exchangeRateService: ExchangeRateService) {
   }
 
   chartOptions = {
@@ -75,10 +74,6 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     }
   ];
 
-
-  ngAfterViewInit() {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
     this.wasGenerated = false;
@@ -89,8 +84,8 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     if (this.dates.length > 0) {
       this.dates.length = 0;
     }
-    this.apiService.getHistoricalRate(this.currencyFrom, this.currencyTo)
-      .pipe(map(
+    this.exchangeRateService.getHistoricalRate(this.currencyFrom, this.currencyTo)
+      .subscribe(
         data => {
           // get needed data from API and save it as timeSeries
           this.timeSeries.length = 0;
@@ -100,8 +95,10 @@ export class ChartComponent implements AfterViewInit, OnChanges {
             this.timeSeries.unshift([item, parseFloat(data['Time Series FX (Daily)'][item]['4. close'])]);
           }
           console.log(this.timeSeries);
-        }))
-      .subscribe(() => {
+        }, err1 => {
+        console.log(err1);
+      }, () => {
+
         // create dataset of all dates between min and max with values/null
         const dataUpdated = new Array();
         const endDate = new Date(this.timeSeries[this.timeSeries.length - 1][0]);
@@ -171,66 +168,31 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     this.chartData[0].data.length = 0;
     switch (chosenRange) {
       case '1W':
-        this.dates[0].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(0);
+        this.switchData(0);
         break;
       case '1M':
-        this.dates[1].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(1);
+        this.switchData(1);
         break;
       case '2M':
-        this.dates[2].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(2);
+        this.switchData(2);
         break;
       case '6M':
-        this.dates[3].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(3);
+        this.switchData(3);
         break;
       case '1Y':
-        this.dates[4].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(4);
+        this.switchData(4);
         break;
       case '2Y':
-        this.dates[5].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(5);
+        this.switchData(5);
         break;
       case '5Y':
-        this.dates[6].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(6);
+        this.switchData(6);
         break;
       case '10Y':
-        this.dates[7].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
-        this.updateTrendLines(7);
+        this.switchData(7);
         break;
       default:
-        this.dates[0].forEach(data => {
-          this.labels.push(data[0]);
-          this.chartData[0].data.push(data[1]);
-        });
+        this.switchData(0);
     }
     if (this.trendLineButtonText === 'Hide trendlines') {
       for (let i = 0; i < this.chartData.length; i++) {
@@ -242,6 +204,14 @@ export class ChartComponent implements AfterViewInit, OnChanges {
     }
     this.wasGenerated = true;
 
+  }
+
+  switchData(index: number) {
+    this.dates[index].forEach(data => {
+      this.labels.push(data[0]);
+      this.chartData[0].data.push(data[1]);
+    });
+    this.updateTrendLines(index);
   }
 
   generateTrendLines() {

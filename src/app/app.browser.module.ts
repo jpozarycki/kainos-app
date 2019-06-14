@@ -6,13 +6,12 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApiService} from './service/api.service';
+import {ExchangeRateService} from './service/exchange-rate.service';
 import {ChartsModule} from 'ng2-charts';
 import {AppModule} from './app.module';
 
 @NgModule({
   imports: [
-    
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -21,7 +20,7 @@ import {AppModule} from './app.module';
     AppModule,
     BrowserTransferStateModule
   ],
-  providers: [ApiService],
+  providers: [ExchangeRateService],
   bootstrap: [AppComponent]
 })
 export class AppBrowserModule { }

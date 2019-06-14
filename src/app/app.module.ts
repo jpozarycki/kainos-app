@@ -12,7 +12,7 @@ import {HeaderComponent} from './header/header.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApiService} from './service/api.service';
+import {ExchangeRateService} from './service/exchange-rate.service';
 import {ChartsModule} from 'ng2-charts';
 import {CommonModule} from '@angular/common';
 import {TransferHttpCacheModule} from '@nguniversal/common';
@@ -39,7 +39,7 @@ import {NgtUniversalModule} from '@ng-toolkit/universal';
     TransferHttpCacheModule,
     NgtUniversalModule
   ],
-  providers: [ApiService],
+  providers: [ExchangeRateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
