@@ -22,19 +22,25 @@ export class CurrencyComponent implements OnInit {
   getCurrencies() {
     this.exchangeRateService.getCurrencies().subscribe(data => {
       this.currencies = Object.keys(data);
-      this.currencyFrom = 'PLN';
-      this.currencyTo = 'CHF';
+      this.currencyFrom = this.currencies[this.getRandomIndex()];
+      this.currencyTo = this.currencies[this.getRandomIndex()];
       this.getExchangeRate();
     });
+  }
+
+  getRandomIndex() {
+    const min = 0;
+    const max = this.currencies.length;
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   getExchangeRate() {
     this.exchangeRateService.getRealTimeRate(this.currencyFrom, this.currencyTo)
       .subscribe(result => {
-      console.log(result),
-        this.exchangeRate = 0,
-        this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
-    });
+        console.log(result),
+          this.exchangeRate = 0,
+          this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+      });
 
   }
 

@@ -15,12 +15,12 @@ describe('CurrencyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrencyComponent ],
+      declarations: [CurrencyComponent],
       imports: [FormsModule, HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [ ExchangeRateService ]
+      providers: [ExchangeRateService]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CurrencyComponent);
     component = fixture.componentInstance;
