@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExchangeRateService {
+  public currencyFrom = new BehaviorSubject<string>('');
+  public currencyTo = new BehaviorSubject<string>('');
 
   private API_CURRENCIES_URL = 'https://openexchangerates.org/api/currencies.json';
 
@@ -21,11 +24,15 @@ export class ExchangeRateService {
   }
 
   getRealTimeRate(currencyFrom: string, currencyTo: string) {
-     return this.http.get(this.API_REAL_TIME_URL + currencyFrom + '&to_currency=' + currencyTo + '&apikey=B19MFIHYQ01VRIIU');
+    this.currencyFrom.next(currencyFrom);
+    this.currencyTo.next(currencyTo);
+    console.log(this.currencyFrom.value);
+    console.log(this.currencyTo.value);
+    return this.http.get(this.API_REAL_TIME_URL + this.currencyFrom.value + '&to_currency=' + this.currencyTo.value + '&apikey=B19MFIHYQ01VRIIU');
   }
 
-  getHistoricalRate(currencyFrom: string, currencyTo: string) {
+  getHistoricalRate() {
     return this.http.get(
-       this.API_HISTORICAL_URL + currencyFrom + '&to_symbol=' + currencyTo + '&outputsize=full&apikey=B19MFIHYQ01VRIIU');
+      this.API_HISTORICAL_URL + this.currencyFrom.value + '&to_symbol=' + this.currencyTo.value + '&outputsize=full&apikey=B19MFIHYQ01VRIIU');
   }
 }

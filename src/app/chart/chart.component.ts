@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ExchangeRateService} from '../service/exchange-rate.service';
 import {BaseChartDirective} from 'ng2-charts';
 
@@ -7,10 +7,7 @@ import {BaseChartDirective} from 'ng2-charts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnChanges {
-
-  @Input() currencyTo;
-  @Input() currencyFrom;
+export class ChartComponent implements OnInit {
 
   wasGenerated = false;
   private trendLineButtonText = 'Hide trendlines';
@@ -74,17 +71,23 @@ export class ChartComponent implements OnChanges {
     }
   ];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    this.wasGenerated = false;
-    this.getExchangeRatesFromApi();
+  ngOnInit() {
+    this.exchangeRateService.currencyTo.subscribe(() => {
+        this.getExchangeRatesFromApi();
+        this.wasGenerated = true;
+    });
+
+    this.exchangeRateService.currencyFrom.subscribe(() => {
+      this.getExchangeRatesFromApi();
+      this.wasGenerated = true;
+    });
   }
 
   getExchangeRatesFromApi() {
     if (this.dates.length > 0) {
       this.dates.length = 0;
     }
-    this.exchangeRateService.getHistoricalRate(this.currencyFrom, this.currencyTo)
+    this.exchangeRateService.getHistoricalRate()
       .subscribe(
         data => {
           this.saveData(data);

@@ -10,7 +10,7 @@ export class CurrencyComponent implements OnInit {
   currencies = [];
   currencyFrom;
   currencyTo;
-  exchangeRate;
+  exchangeRate = 0;
 
   constructor(private exchangeRateService: ExchangeRateService) {
   }
@@ -29,9 +29,8 @@ export class CurrencyComponent implements OnInit {
   }
 
   getRandomIndex() {
-    const min = 0;
     const max = this.currencies.length;
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * max);
   }
 
   getExchangeRate() {

@@ -67,7 +67,5 @@
   </div>
 </div>
 
-<app-chart
-    [currencyFrom]="currencyFrom"
-    [currencyTo]="currencyTo"
-    *ngIf="exchangeRate !== 0"></app-chart>
+<app-chart *ngIf="exchangeRate !== 0"></app-chart>
+
