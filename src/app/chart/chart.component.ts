@@ -87,61 +87,72 @@ export class ChartComponent implements OnChanges {
     this.exchangeRateService.getHistoricalRate(this.currencyFrom, this.currencyTo)
       .subscribe(
         data => {
-          // get needed data from API and save it as timeSeries
-          this.timeSeries.length = 0;
-          console.log(Object.keys(this.timeSeries).length);
-          // tslint:disable-next-line:forin
-          for (const item in data['Time Series FX (Daily)']) {
-            this.timeSeries.unshift([item, parseFloat(data['Time Series FX (Daily)'][item]['4. close'])]);
-          }
-          console.log(this.timeSeries);
+          this.saveData(data);
         }, err1 => {
-        console.log(err1);
-      }, () => {
+          console.log(err1);
+        }, () => {
+          this.cleanData(this.createDataSet());
+          this.generateTrendLines();
+          this.setHowManyButtons();
+        });
 
-        // create dataset of all dates between min and max with values/null
-        const dataUpdated = new Array();
-        const endDate = new Date(this.timeSeries[this.timeSeries.length - 1][0]);
-        console.log('End date: ' + endDate);
-        const tempDate = new Date(this.timeSeries[0][0]);
-        console.log('Start date: ' + tempDate);
-        while (tempDate <= endDate) {
-          const dateToPut = this.refactorDate(tempDate);
-          let exchangeValue;
-          // tslint:disable-next-line:prefer-for-of
-          for (let i = 0; i < this.timeSeries.length; i++) {
-            if (this.timeSeries[i][0] === dateToPut) {
-              exchangeValue = this.timeSeries[i][1];
-            }
-          }
-          if (isNaN(exchangeValue)) {
-            exchangeValue = null;
-          }
-          dataUpdated.push([dateToPut, exchangeValue]);
-          tempDate.setDate(tempDate.getDate() + 1);
-        }
-        console.log(dataUpdated);
-        // put dates and values together
-        const tempDates = [new Array(7), new Array(30), new Array(60), new Array(180),
-          new Array(365), new Array(730), new Array(1825), new Array(3650)];
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < tempDates.length; i++) {
-          for (let j = 0; j < tempDates[i].length; j++) {
-            tempDates[i][tempDates[i].length - j - 1] = dataUpdated[dataUpdated.length - j - 1];
-          }
-        }
-        console.log(tempDates);
-        // dispose the undefined values
-        for (let i = 0; i < tempDates.length; i++) {
-          tempDates[i] = tempDates[i].filter(item => item !== undefined);
-        }
-        console.log(tempDates);
-        this.dates = tempDates;
-        console.log(this.dates);
-        this.generateTrendLines();
-        this.setHowManyButtons();
-      });
+  }
 
+  private cleanData(dataUpdated) {
+// put dates and values together
+    const tempDates = [new Array(7), new Array(30), new Array(60), new Array(180),
+      new Array(365), new Array(730), new Array(1825), new Array(3650)];
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < tempDates.length; i++) {
+      for (let j = 0; j < tempDates[i].length; j++) {
+        tempDates[i][tempDates[i].length - j - 1] = dataUpdated[dataUpdated.length - j - 1];
+      }
+    }
+    console.log(tempDates);
+    // dispose the undefined values
+    for (let i = 0; i < tempDates.length; i++) {
+      tempDates[i] = tempDates[i].filter(item => item !== undefined);
+    }
+    console.log(tempDates);
+    this.dates = tempDates;
+    console.log(this.dates);
+  }
+
+  private createDataSet() {
+// create dataset of all dates between min and max with values/null
+    const dataUpdated = new Array();
+    const endDate = new Date(this.timeSeries[this.timeSeries.length - 1][0]);
+    console.log('End date: ' + endDate);
+    const tempDate = new Date(this.timeSeries[0][0]);
+    console.log('Start date: ' + tempDate);
+    while (tempDate <= endDate) {
+      const dateToPut = this.refactorDate(tempDate);
+      let exchangeValue;
+      // tslint:disable-next-line:prefer-for-of
+      for (let i = 0; i < this.timeSeries.length; i++) {
+        if (this.timeSeries[i][0] === dateToPut) {
+          exchangeValue = this.timeSeries[i][1];
+        }
+      }
+      if (isNaN(exchangeValue)) {
+        exchangeValue = null;
+      }
+      dataUpdated.push([dateToPut, exchangeValue]);
+      tempDate.setDate(tempDate.getDate() + 1);
+    }
+    console.log(dataUpdated);
+    return dataUpdated;
+  }
+
+  private saveData(data) {
+// get needed data from API and save it as timeSeries
+    this.timeSeries.length = 0;
+    console.log(Object.keys(this.timeSeries).length);
+    // tslint:disable-next-line:forin
+    for (const item in data['Time Series FX (Daily)']) {
+      this.timeSeries.unshift([item, parseFloat(data['Time Series FX (Daily)'][item]['4. close'])]);
+    }
+    console.log(this.timeSeries);
   }
 
   refactorDate(date) {
@@ -198,7 +209,7 @@ export class ChartComponent implements OnChanges {
       for (let i = 0; i < this.chartData.length; i++) {
         if (i > 0) {
           // @ts-ignore
-          this.chartData[i].hidden = false;
+          this.chartData[i].hidden = !this.chartData[i].hidden;
         }
       }
     }
@@ -241,22 +252,22 @@ export class ChartComponent implements OnChanges {
     // fills arrays of nulls with values at ends and beginnings of every range
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < trendlines.length; i++) {
-        let n = 0;
-        // tslint:disable-next-line:prefer-for-of
-        for (let j = 0; j < trendlines[i].length; j++) {
-          for (let k = 0; k < trendlines[i][j].length; k++) {
-            if (k === 0 || k === trendlines[i][j].length - 1) {
-              let c = this.dates[i].length - n - 1;
-              while (this.dates[i][c][1] === null) {
-                c++;
-              }
-              trendlines[i][j][trendlines[i][j].length - k - 1] = this.dates[i][c][1];
-
+      let n = 0;
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = 0; j < trendlines[i].length; j++) {
+        for (let k = 0; k < trendlines[i][j].length; k++) {
+          if (k === 0 || k === trendlines[i][j].length - 1) {
+            let c = this.dates[i].length - n - 1;
+            while (this.dates[i][c][1] === null) {
+              c++;
             }
-            n++;
+            trendlines[i][j][trendlines[i][j].length - k - 1] = this.dates[i][c][1];
+
           }
+          n++;
         }
       }
+    }
 
     console.log(trendlines);
     // inserts nulls in front of trendline datasets - trendlines dont overlap
@@ -298,7 +309,6 @@ export class ChartComponent implements OnChanges {
       this.chart.chart.update();
     });
   }
-
 
 
   setColor(trendLineValues: any[]): string {
@@ -343,7 +353,7 @@ export class ChartComponent implements OnChanges {
 
   setHowManyButtons() {
     this.howManyButtons = 1;
-    for ( let i = 1; i < this.dates.length; i++) {
+    for (let i = 1; i < this.dates.length; i++) {
       if (this.dates[i].length > this.dates[i - 1].length) {
         this.howManyButtons += 1;
       }
