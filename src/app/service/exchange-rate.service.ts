@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,11 @@ export class ExchangeRateService {
     this.currencyTo.next(currencyTo);
     console.log(this.currencyFrom.value);
     console.log(this.currencyTo.value);
-    return this.http.get(this.API_REAL_TIME_URL + this.currencyFrom.value + '&to_currency=' + this.currencyTo.value + '&apikey=B19MFIHYQ01VRIIU');
+    return this.http.get(this.API_REAL_TIME_URL + this.currencyFrom.value + '&to_currency=' + this.currencyTo.value + '&apikey=' + environment.apiKey);
   }
 
   getHistoricalRate() {
     return this.http.get(
-      this.API_HISTORICAL_URL + this.currencyFrom.value + '&to_symbol=' + this.currencyTo.value + '&outputsize=full&apikey=B19MFIHYQ01VRIIU');
+      this.API_HISTORICAL_URL + this.currencyFrom.value + '&to_symbol=' + this.currencyTo.value + '&outputsize=full&apikey=B19MFIHYQ01VRIIU' + environment.apiKey);
   }
 }
