@@ -72,6 +72,7 @@ export class ChartComponent implements OnInit {
       borderWidth: 2
     }
   ];
+  dataRangeWasChosen = false;
 
   ngOnInit() {
     this.exchangeRateService.currencyTo.subscribe(() => {
@@ -107,6 +108,7 @@ export class ChartComponent implements OnInit {
   }
 
   getExchangeRatesFromApi() {
+    this.wasGenerated = false;
     if (this.dates.length > 0) {
       this.dates.length = 0;
     }
@@ -120,6 +122,7 @@ export class ChartComponent implements OnInit {
           this.cleanData(this.createDataSet());
           this.generateTrendLines();
           this.setHowManyButtons();
+          this.wasGenerated = true;
         });
 
   }
@@ -239,6 +242,7 @@ export class ChartComponent implements OnInit {
       this.chartData[0].data.push(data[1]);
     });
     this.updateTrendLines(index);
+    this.dataRangeWasChosen = true;
   }
 
   generateTrendLines() {

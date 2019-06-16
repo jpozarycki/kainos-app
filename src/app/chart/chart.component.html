@@ -12,7 +12,7 @@
     <button class="btn active" (click)="updateChartData('10Y')" *ngIf="howManyButtons == 8">10Y</button>
 
   </div>
-  <div class="container">
+  <div class="container" *ngIf="dataRangeWasChosen">
     <div class="d-flex justify-content-center">
 <!--      button for toggling trendlines-->
       <button class="btn btn-my" (click)="hideTrendLine()">{{trendLineButtonText}}</button>
