@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"*ngIf="wasGenerated">
   <div class="row justify-content-center add-padd"><h2>Choose date range for historical values</h2></div>
   <div class="btn-group btn-group-toggle d-flex" data-toggle="buttons">
 <!--group of buttons for time range options-->
@@ -12,7 +12,7 @@
     <button class="btn active" (click)="updateChartData('10Y')" *ngIf="howManyButtons == 8">10Y</button>
 
   </div>
-  <div class="container" *ngIf="wasGenerated">
+  <div class="container">
     <div class="d-flex justify-content-center">
 <!--      button for toggling trendlines-->
       <button class="btn btn-my" (click)="hideTrendLine()">{{trendLineButtonText}}</button>

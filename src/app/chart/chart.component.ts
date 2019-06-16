@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ExchangeRateService} from '../service/exchange-rate.service';
 import {BaseChartDirective} from 'ng2-charts';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-chart',
@@ -10,7 +11,8 @@ import {BaseChartDirective} from 'ng2-charts';
 export class ChartComponent implements OnInit {
 
   wasGenerated = false;
-  private trendLineButtonText = 'Hide trendlines';
+  private trendLineButtonText;
+  areTrendlinesHidden = new BehaviorSubject<boolean>(true);
   private timeSeries = [];
   dates = new Array(8);
   trendLines = new Array(8);
@@ -73,13 +75,34 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
     this.exchangeRateService.currencyTo.subscribe(() => {
-        this.getExchangeRatesFromApi();
-        this.wasGenerated = true;
+      this.getExchangeRatesFromApi();
     });
 
     this.exchangeRateService.currencyFrom.subscribe(() => {
       this.getExchangeRatesFromApi();
-      this.wasGenerated = true;
+    });
+    this.areTrendlinesHidden.subscribe(data => {
+      console.log(data);
+      if (data) {
+        this.trendLineButtonText = 'Show trendlines';
+        console.log('Im showing trendlines');
+        for (let i = 0; i < this.chartData.length; i++) {
+          if (i > 0) {
+            // @ts-ignore
+            this.chartData[i].hidden = true;
+          }
+        }
+      } else {
+        this.trendLineButtonText = 'Hide trendlines';
+        console.log('Im hiding trendlines');
+        for (let i = 0; i < this.chartData.length; i++) {
+          if (i > 0) {
+            // @ts-ignore
+            this.chartData[i].hidden = false;
+          }
+        }
+      }
+
     });
   }
 
@@ -208,16 +231,6 @@ export class ChartComponent implements OnInit {
       default:
         this.switchData(0);
     }
-    if (this.trendLineButtonText === 'Hide trendlines') {
-      for (let i = 0; i < this.chartData.length; i++) {
-        if (i > 0) {
-          // @ts-ignore
-          this.chartData[i].hidden = !this.chartData[i].hidden;
-        }
-      }
-    }
-    this.wasGenerated = true;
-
   }
 
   switchData(index: number) {
@@ -304,7 +317,7 @@ export class ChartComponent implements OnInit {
         borderWidth: 1,
         borderDash: [10, 5],
         fill: false,
-        hidden: false
+        hidden: this.areTrendlinesHidden.value
       };
       this.chartData.push(trendLine);
     }
@@ -338,19 +351,7 @@ export class ChartComponent implements OnInit {
 
   hideTrendLine() {
     // @ts-ignore
-    for (let i = 0; i < this.chartData.length; i++) {
-      if (i > 0) {
-        // @ts-ignore
-        this.chartData[i].hidden = !this.chartData[i].hidden;
-      }
-    }
-    // @ts-ignore
-    if (this.chartData[this.chartData.length - 1].hidden === true) {
-      this.trendLineButtonText = 'Show trendlines';
-    } else {
-      this.trendLineButtonText = 'Hide trendlines';
-    }
-
+    this.areTrendlinesHidden.next(!this.areTrendlinesHidden.value);
     this.chart.chart.update();
   }
 
@@ -361,6 +362,7 @@ export class ChartComponent implements OnInit {
         this.howManyButtons += 1;
       }
     }
+    this.wasGenerated = true;
   }
 
 }
