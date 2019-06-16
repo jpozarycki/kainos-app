@@ -65,7 +65,13 @@ option {
   background-color: white;
 }
 
+.container.error {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .add-padd {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
 }

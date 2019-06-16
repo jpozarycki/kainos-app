@@ -11,6 +11,7 @@ export class CurrencyComponent implements OnInit {
   currencyFrom;
   currencyTo;
   exchangeRate = 0;
+  error: string;
 
   constructor(private exchangeRateService: ExchangeRateService) {
   }
@@ -36,8 +37,11 @@ export class CurrencyComponent implements OnInit {
   getExchangeRate() {
     this.exchangeRateService.getRealTimeRate(this.currencyFrom, this.currencyTo)
       .subscribe(result => {
+        if (Object.keys(result).length === 1) {
+          this.error = 'API call frequency is too high. Try again in a minute, please';
+        }
         console.log(result),
-          this.exchangeRate = 0,
+        this.exchangeRate = 0,
           this.exchangeRate = result['Realtime Currency Exchange Rate']['5. Exchange Rate'];
       });
 
@@ -45,7 +49,6 @@ export class CurrencyComponent implements OnInit {
 
   switchCurrencies() {
     let temp;
-
     temp = this.currencyFrom;
     this.currencyFrom = this.currencyTo;
     this.currencyTo = temp;

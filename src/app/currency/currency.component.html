@@ -5,6 +5,11 @@
 </div>
 <!--window for currencies selection-->
 <div class="container add-padd">
+  <div class="row" *ngIf="error">
+    <div class="col-xs-12 alert alert-danger text-center">
+      <p>{{error}}</p>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <div class="text-center my-class-3">
